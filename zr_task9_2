@@ -1,0 +1,38 @@
+*&---------------------------------------------------------------------*
+*& Report ZR_TASK9_2
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZR_TASK9_2.
+tables: ztab_vbak.
+TYPES: BEGIN OF FINAL_STRUCT,
+        vbeln TYPE ZTAB_VBAK-VBELN,
+        erdat TYPE ZTAB_VBAK-ERDAT,
+        ernam TYPE ZTAB_VBAK-ERNAM,
+        audat TYPE ZTAB_VBAK-AUDAT,
+        matnr TYPE ZTAB_VBAP-MATNR,
+        matwa type ZTAB_VBAP-MATWA,
+        matkl type ZTAB_VBAP-MATKL,
+       END OF FINAL_STRUCT.
+
+
+DATA: it_tab2 TYPE TABLE OF FINAL_STRUCT,
+      wa_tab2 TYPE FINAL_STRUCT.
+
+select-OPTIONS: vbeln2 for ztab_vbak-vbeln.
+
+SUBMIT ZR_TASK9_1 WITH VBlen in VBELN2 EXPORTING LIST TO MEMORY AND RETURN.
+
+
+import it_tab to it_tab2 from memory id 'vpn_mem'.
+
+LOOP AT it_tab2 INTO wa_tab2.
+  WRITE:/  wa_tab2-vbeln,
+
+25 wa_tab2-erdat,
+40 wa_tab2-ernam,
+55 wa_tab2-audat,
+84 wa_tab2-matnr,
+104 wa_tab2-matwa,
+124 wa_tab2-matkl.
+ENDLOOP.
